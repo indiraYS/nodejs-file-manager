@@ -39,7 +39,7 @@ class Walker {
     async cd(path, isWin) {
         let done = true
 
-        if (isWin && this.#current.substring(0, 1).toLowerCase() !== path.substring(0, 1).toLowerCase()) {
+        if (isWin && path.indexOf(":") > -1 && this.#current.substring(0, 1).toLowerCase() !== path.substring(0, 1).toLowerCase()) {
             console.log("Operation failed")
             return false
         }
