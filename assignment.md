@@ -1,10 +1,10 @@
 # [Course program module (for RS School students)](https://github.com/rolling-scopes-school/tasks/blob/master/node/modules/nodejs-application/README.md)
 
-# Assignment: File Manager
+# Assignment: File Walker
 
 ## Description
 
-Your task is to implement File Manager using Node.js APIs.
+Your task is to implement File Walker using Node.js APIs.
 
 The file manager should be able to do the following:
 
@@ -24,9 +24,9 @@ The file manager should be able to do the following:
 npm run start -- --username=your_username
 ```
 - After starting the program displays the following text in the console (`Username` is equal to value that was passed on application start in `--username` CLI argument)  
-`Welcome to the File Manager, Username!`  
+`Welcome to the File Walker, Username!`  
 - After program work finished (`ctrl + c` pressed or user sent `.exit` command into console) the program displays the following text in the console  
-`Thank you for using File Manager, Username, goodbye!`  
+`Thank you for using File Walker, Username, goodbye!`  
 - At the start of the program and after each end of input/operation current working directory should be printed in following way:  
 `You are currently in path_to_working_directory`  
 - Starting working directory is current user's home directory (for example, on Windows it's something like `system_drive/Users/Username`)
