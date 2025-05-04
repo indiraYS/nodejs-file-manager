@@ -1,14 +1,17 @@
 import os from "node:os"
-import { constants, promises }  from "node:fs"
+import {constants, promises} from "node:fs"
 import {sep, isAbsolute, resolve} from "node:path"
 
 class Walker {
     #current;
+
     constructor() {
-        this.#current = os.homedir();
+       this.#current = os.homedir();
     }
 
-    path()  { return this.#current }
+    path() {
+        return this.#current
+    }
 
     isWindows() {
         return os.type() === 'Windows_NT'
@@ -36,6 +39,10 @@ class Walker {
     async cd(path, isWin) {
         let done = true
 
+        if (isWin && this.#current.substring(0, 1).toLowerCase() !== path.substring(0, 1).toLowerCase()) {
+            console.log("Operation failed")
+            return false
+        }
 
         if (!isAbsolute(path)) {
             let {changed, url} = this.relative(this.#current, path, isWin)
@@ -48,24 +55,24 @@ class Walker {
             await promises.access(path, constants.R_OK | constants.W_OK)
             this.#current = path
         } catch (e) {
-            console.log("err", e)
+            console.log("Operation failed")
             done = false
         }
         return done
     }
 
     // param isWin for test
-    relative(url, to, isWin)  {
+    relative(url, to, isWin) {
         let changed = false;
         let moves = to.split(sep);
-        if (moves[moves.length-1] === '') moves = moves.slice(0, moves.length-1) // replace last empty
+        if (moves[moves.length - 1] === '') moves = moves.slice(0, moves.length - 1) // replace last empty
 
         for (let part in moves) {
             if (moves[part] === '..') {
                 const parts = url.split(sep)
                 if (isWin) {
                     // 'c:', '', '' => c://
-                    if (parts.length > 2 && parts[parts.length-1] !== '') {
+                    if (parts.length > 2 && parts[parts.length - 1] !== '') {
                         changed = true
                         url = parts.slice(0, parts.length - 1).join(sep)
                         if (parts.length === 3) url = url + sep // to make c://dir to c://
@@ -74,7 +81,7 @@ class Walker {
                         break
                     }
                 } else {
-                    if (parts.length > 1 && parts[parts.length-1] !== '') {
+                    if (parts.length > 1 && parts[parts.length - 1] !== '') {
                         changed = true
                         url = parts.slice(0, parts.length - 1).join(sep)
                         if (url === '') url += sep
